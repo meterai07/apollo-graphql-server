@@ -8,12 +8,21 @@ const resolvers = {
         games() {
             return db.games
         },
+        game(_, { id }) {
+            return db.games.find(game => game.id === id)
+        },
         reviews() {
             return db.authors
         },
+        review(_, { id }) {
+            return db.reviews.find(review => review.id === id)
+        },
         authors() {
             return db.reviews
-        }
+        },
+        author(_, { id }) {
+            return db.authors.find(author => author.id === id)
+        },
     }
 }
 const server = new ApolloServer({
