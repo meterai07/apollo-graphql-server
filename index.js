@@ -41,6 +41,29 @@ const resolvers = {
         author(review) {
             return db.authors.find(author => author.id === review.author_id)
         }
+    },
+    Mutation: {
+        addGame(_, { game }) {
+            const newGame = {
+                id: String(db.games.length + 1),
+                ...game
+            }
+            db.games.push(newGame)
+            return newGame
+        },
+        updateGame(_, { id, game }) {
+            const gameIndex = db.games.findIndex(game => game.id === id)
+            const updatedGame = {
+                ...db.games[gameIndex],
+                ...game
+            }
+            db.games[gameIndex] = updatedGame
+            return updatedGame
+        },
+        deleteGame(_, { id }) {
+            db.games = db.games.filter(game => game.id !== id)
+            return db.games
+        },
     }
 }
 const server = new ApolloServer({
